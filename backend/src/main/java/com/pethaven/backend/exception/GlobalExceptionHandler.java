@@ -28,4 +28,16 @@ public class GlobalExceptionHandler {
                 "message", ex.getMessage(),
                 "errors", Map.of("email", ex.getMessage())));
     }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)            // 401
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AccountUnavailableException.class)
+    public ResponseEntity<Map<String, Object>> handleAccountUnavailable(AccountUnavailableException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)               // 403, Figure 5.5a
+                .body(Map.of("message", ex.getMessage()));
+    }
 }
