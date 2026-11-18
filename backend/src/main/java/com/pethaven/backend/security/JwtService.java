@@ -1,6 +1,7 @@
 package com.pethaven.backend.security;
 
 import com.pethaven.backend.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -34,6 +35,15 @@ public class JwtService {
                 .expiration(Date.from(now.plus(expirationMinutes, ChronoUnit.MINUTES)))
                 .signWith(key)
                 .compact();
+    }
+
+    /** Checks signature and expiry; throws JwtException if tampered or expired (NFR-008). */
+    public Claims parseToken(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public long getExpirationSeconds() {
