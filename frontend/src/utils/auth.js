@@ -23,3 +23,10 @@ export function clearSession() {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(ROLE_KEY)
 }
+
+// Where each role lands after login (role-based dashboards)
+export function dashboardPath(role = getRole()) {
+  if (role === 'ADMIN') return '/admin'
+  if (role === 'SHELTER') return '/shelter'
+  return '/adopter'
+}
