@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { isLoggedIn, clearSession } from '../utils/auth'
+import { isLoggedIn, clearSession, getRole } from '../utils/auth'
 
 export default function MainLayout() {
   useLocation()                     // re-draw the nav bar after login/logout
@@ -19,6 +19,7 @@ export default function MainLayout() {
           <Link to="/">Find a Pet</Link>
           {loggedIn ? (
             <>
+              {getRole() === 'ADMIN' && <Link to="/admin/shelters">Shelters</Link>}
               <Link to="/account">My account</Link>
               <button type="button" className="btn-link" onClick={handleLogout}>Log out</button>
             </>
