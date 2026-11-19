@@ -34,6 +34,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/error").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")      // section 8.4: Admin only
+                .requestMatchers("/api/shelter/**").hasRole("SHELTER")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
