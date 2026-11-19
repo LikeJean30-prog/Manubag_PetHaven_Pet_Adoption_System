@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import FormField from '../../components/FormField'
 import { login } from '../../api/authApi'
-import { saveSession } from '../../utils/auth'
+import { saveSession, dashboardPath } from '../../utils/auth'
 import { readApiError } from '../../utils/errors'
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
     try {
       const result = await login(form)
       saveSession(result)
-      navigate('/account')
+      navigate(dashboardPath(result.role))
     } catch (err) {
       const { message, errors } = readApiError(err)
       setMessage(message)          // FR-003: "Invalid email or password"
