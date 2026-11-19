@@ -12,7 +12,7 @@ export default function Login() {
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  const justRegistered = location.state?.registered
+  const registeredAs = location.state?.registered
 
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -37,9 +37,15 @@ export default function Login() {
   return (
     <div className="card">
       <h1>Log in</h1>
-      {justRegistered && !message && (
+      {registeredAs === 'ADOPTER' && !message && (
         <div className="alert alert-success" role="status">Account created. You can now log in.</div>
-      )}
+        )}
+        {registeredAs === 'SHELTER' && !message && (
+          <div className="alert alert-success" role="status">
+            Registration received. An administrator will verify your shelter. You can log in to check its status.
+            </div>
+          )}
+          
       {message && <div className="alert alert-error" role="alert">{message}</div>}
 
       <form onSubmit={handleSubmit} noValidate>
