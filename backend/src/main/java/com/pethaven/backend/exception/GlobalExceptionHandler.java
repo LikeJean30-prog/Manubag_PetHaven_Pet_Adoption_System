@@ -47,4 +47,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(Map.of(
                 "message", "Some values are in the wrong format. Check that organization type is SHELTER or RESCUER."));
     }
+
+        @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessRule(BusinessRuleException ex) {
+        return ResponseEntity.badRequest().body(Map.of(
+                "message", ex.getMessage(),
+                "errors", Map.of(ex.getField(), ex.getMessage())));
+    }
 }
