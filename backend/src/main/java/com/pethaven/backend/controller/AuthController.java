@@ -1,9 +1,6 @@
 package com.pethaven.backend.controller;
 
-import com.pethaven.backend.dto.LoginRequest;
-import com.pethaven.backend.dto.LoginResponse;
-import com.pethaven.backend.dto.RegisterAdopterRequest;
-import com.pethaven.backend.dto.UserResponse;
+import com.pethaven.backend.dto.*;
 import com.pethaven.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,6 +21,12 @@ public class AuthController {
     public ResponseEntity<UserResponse> registerAdopter(@Valid @RequestBody RegisterAdopterRequest req) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.from(authService.registerAdopter(req)));
+    }
+
+    @PostMapping("/register/shelter")          // FR-002
+    public ResponseEntity<ShelterRegistrationResponse> registerShelter(@Valid @RequestBody RegisterShelterRequest req) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ShelterRegistrationResponse.from(authService.registerShelter(req)));
     }
 
     @PostMapping("/login")                     // FR-003
