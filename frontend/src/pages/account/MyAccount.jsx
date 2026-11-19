@@ -1,16 +1,24 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getMe } from '../../api/authApi'
+import { getMyShelter } from '../../api/shelterApi'
+import { getRole } from '../../utils/auth'
 import { readApiError } from '../../utils/errors'
+import { formatDateTime } from '../../utils/dates'
+import StatusBadge from '../../components/StatusBadge'
 
 export default function MyAccount() {
+  const role = getRole()
   const [user, setUser] = useState(null)
+  const [shelter, setShelter] = useState(null)
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    getMe()
-      .then(setUser)
-      .catch((err) => setMessage(readApiError(err).message))
-  }, [])
+    getMe().then(setUser).catch((err) => setMessage(readApiError(err).message))
+    if (role === 'SHELTER') {
+      getMyShelter().then(setShelter).catch((err) => setMessage(readApiError(err).message))
+    }
+  }, [role])
 
   if (message) return <div className="card"><div className="alert alert-error" role="alert">{message}</div></div>
   if (!user) return <div className="card"><p>Loading…</p></div>
@@ -18,12 +26,32 @@ export default function MyAccount() {
   return (
     <div className="card">
       <h1>My account</h1>
-      <dl>
-        <dt><strong>Name</strong></dt><dd>{user.firstName} {user.lastName}</dd>
-        <dt><strong>Email</strong></dt><dd>{user.email}</dd>
-        <dt><strong>Role</strong></dt><dd>{user.role}</dd>
-        <dt><strong>Status</strong></dt><dd>{user.accountStatus}</dd>
+      <dl className="details">
+        <dt>Name</dt><dd>{user.firstName} {user.lastName}</dd>
+        <dt>Email</dt><dd>{user.email}</dd>
+        <dt>Role</dt><dd>{user.role}</dd>
+        <dt>Status</dt><dd>{user.accountStatus}</dd>
       </dl>
+
+      {shelter && (
+        <section className="status-panel">
+          <h2>Shelter verification</h2>
+          <p><strong>{shelter.organizationName}</strong> <StatusBadge status={shelter.verificationStatus} /></p>
+          {shelter.verificationStatus === 'PENDING' && (
+            <p>An administrator is reviewing your registration. You can publish pet listings once it is verified.</p>
+          )}
+          {shelter.verificationStatus === 'VERIFIED' && (
+            <p>Verified on {formatDateTime(shelter.verifiedAt)}. You can now publish pet listings.</p>
+          )}
+          {shelter.verificationStatus === 'REJECTED' && (
+            <p>Your registration was not approved. Reason: {shelter.rejectionReason}</p>
+          )}
+        </section>
+      )}
+
+      {role === 'ADMIN' && (
+        <p><Link to="/admin/shelters" className="btn">Review shelter registrations</Link></p>
+      )}
     </div>
   )
 }

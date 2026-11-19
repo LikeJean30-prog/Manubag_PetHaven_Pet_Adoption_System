@@ -5,6 +5,7 @@ import Home from '../pages/Home'
 import Login from '../pages/auth/Login'
 import Register from '../pages/auth/Register'
 import MyAccount from '../pages/account/MyAccount'
+import ShelterVerification from '../pages/admin/ShelterVerification'
 
 export default function AppRoutes() {
   return (
@@ -17,6 +18,10 @@ export default function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<MyAccount />} />
         </Route>
+
+          <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+          <Route path="/admin/shelters" element={<ShelterVerification />} />
+          </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
