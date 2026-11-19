@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout'
 import ProtectedRoute from './ProtectedRoute'
 import Home from '../pages/Home'
 import Login from '../pages/auth/Login'
-import RegisterAdopter from '../pages/auth/RegisterAdopter'
+import Register from '../pages/auth/Register'
 import MyAccount from '../pages/account/MyAccount'
 
 export default function AppRoutes() {
@@ -12,7 +12,7 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterAdopter />} />
+        <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<MyAccount />} />

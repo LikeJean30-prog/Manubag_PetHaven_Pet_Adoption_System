@@ -8,3 +8,6 @@ export const login = (data) =>
 
 export const getMe = () =>
   client.get('/users/me').then((res) => res.data)                       // FR-007
+
+export const registerShelter = (data) =>
+  client.post('/auth/register/shelter', data).then((res) => res.data)   // FR-002
