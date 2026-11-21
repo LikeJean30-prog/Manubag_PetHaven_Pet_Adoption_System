@@ -10,7 +10,8 @@
   --radius: 12px;
   font-family: system-ui, "Segoe UI", Roboto, sans-serif;
   color: var(--navy);
-  background: var(--cream);
+  background: linear-gradient(160deg, #1F3A6B 0%, #16284C 50%, #0E1A33 100%) fixed;
+  min-height: 100vh;
 }
 
 * { box-sizing: border-box; }
@@ -20,7 +21,8 @@ h1 { margin-top: 0; }
 
 /* Navigation bar */
 .navbar {
-  background: var(--navy);
+  background: transparent; 
+  border-bottom: 1px solid rgba(239, 232, 218, 0.15);
   color: var(--white);
   display: flex;
   flex-wrap: wrap;
@@ -184,3 +186,6 @@ textarea { width: 100%; resize: vertical; }
 a.dash-tile:hover, a.dash-tile:focus-visible { border-color: var(--amber); outline: none; }
 .dash-tile.disabled { opacity: 0.7; }
 .dash-stat { font-size: 36px; font-weight: 800; margin: 4px 0 8px !important; }
+
+.page-wide > h1,
+.page-wide > p { color: var(--cream); }
