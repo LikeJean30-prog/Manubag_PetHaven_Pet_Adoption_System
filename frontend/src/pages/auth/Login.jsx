@@ -59,6 +59,9 @@ export default function Login() {
         <button type="submit" className="btn btn-full" disabled={submitting}>
           {submitting ? 'Logging in…' : 'Log in'}
         </button>
+        <p className="forgot-link">
+            <Link to="/forgot-password">Forgot password?</Link>
+        </p>
       </form>
 
       <p>New to PetHaven? <Link to="/register">Create an account</Link></p>
