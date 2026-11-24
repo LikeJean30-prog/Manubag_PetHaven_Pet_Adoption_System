@@ -45,6 +45,11 @@ export default function Login() {
             Registration received. An administrator will verify your shelter. You can log in to check its status.
             </div>
           )}
+        {location.state?.passwordChanged && !message && (
+        <div className="alert alert-success" role="status">
+          Password changed. Please log in with your new password.
+        </div>
+      )}
           
       {message && <div className="alert alert-error" role="alert">{message}</div>}
 
