@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import FormField from '../../components/FormField'
+import PasswordField from '../../components/PasswordField'
 import { registerAdopter, registerShelter } from '../../api/authApi'
 import { readApiError } from '../../utils/errors'
+import '../../styles/Register.css' 
 
-const emptyAdopter = {
-  firstName: '', lastName: '',
-  email: '', phoneNumber: '', password: '', privacyConsent: false,
+const sharedFields = {
+  email: '', phoneNumber: '', password: '', confirmPassword: '', privacyConsent: false,
 }
-
+const emptyAdopter = { firstName: '', lastName: '', ...sharedFields }
 const emptyShelter = {
   organizationName: '', organizationType: 'SHELTER',
   contactFirstName: '', contactLastName: '', address: '', description: '',
-  email: '', phoneNumber: '', password: '', privacyConsent: false,
+  ...sharedFields,
 }
 
 // Admin is not offered here: admin accounts are created by the system owner (A-05)
@@ -26,12 +27,12 @@ export default function Register() {
 
   function chooseRole(next) {
     setRole(next)
-    // keep the fields both forms share, reset the rest
     setForm((prev) => ({
       ...(next === 'ADOPTER' ? emptyAdopter : emptyShelter),
       email: prev.email,
       phoneNumber: prev.phoneNumber,
       password: prev.password,
+      confirmPassword: prev.confirmPassword,
       privacyConsent: prev.privacyConsent,
     }))
     setErrors({})
@@ -45,14 +46,22 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setSubmitting(true)
     setErrors({})
     setMessage('')
+
+    if (form.password !== form.confirmPassword) {
+      setErrors({ confirmPassword: 'Passwords do not match.' })
+      return
+    }
+
+    const { confirmPassword: _confirm, ...payload } = form
+
+    setSubmitting(true)
     try {
       if (role === 'ADOPTER') {
-        await registerAdopter(form)          // FR-001
+        await registerAdopter(payload)          // FR-001
       } else {
-        await registerShelter(form)          // FR-002: saved as PENDING
+        await registerShelter(payload)          // FR-002: saved as PENDING
       }
       navigate('/login', { state: { registered: role } })
     } catch (err) {
@@ -77,14 +86,14 @@ export default function Register() {
         <legend>I am registering as</legend>
         <label className={role === 'ADOPTER' ? 'role-option selected' : 'role-option'}>
           <input type="radio" name="role" value="ADOPTER"
-                 checked={role === 'ADOPTER'} onChange={() => chooseRole('ADOPTER')} />
-          <strong>Adopter {role === 'ADOPTER' && '✓'}</strong>
+                checked={role === 'ADOPTER'} onChange={() => chooseRole('ADOPTER')} />
+          <strong>Adopter</strong>
           <span>I want to adopt a pet</span>
         </label>
         <label className={role === 'SHELTER' ? 'role-option selected' : 'role-option'}>
           <input type="radio" name="role" value="SHELTER"
-                 checked={role === 'SHELTER'} onChange={() => chooseRole('SHELTER')} />
-          <strong>Shelter / Rescuer {role === 'SHELTER' && '✓'}</strong>
+                checked={role === 'SHELTER'} onChange={() => chooseRole('SHELTER')} />
+          <strong>Shelter / Rescuer</strong>
           <span>I want to list pets for adoption</span>
         </label>
       </fieldset>
@@ -93,10 +102,10 @@ export default function Register() {
 
       <form onSubmit={handleSubmit} noValidate>
         {role === 'ADOPTER' ? (
-          <>
+          <div className="form-row">
             {field('firstName', 'First name', { autoComplete: 'given-name' })}
             {field('lastName', 'Last name', { autoComplete: 'family-name' })}
-          </>
+          </div>
         ) : (
           <>
             {field('organizationName', 'Organization name', { autoComplete: 'organization' })}
@@ -111,8 +120,10 @@ export default function Register() {
               {errors.organizationType && <span className="field-error">{errors.organizationType}</span>}
             </div>
 
+            <div className="form-row">
             {field('contactFirstName', "Contact person's first name", { autoComplete: 'given-name' })}
             {field('contactLastName', "Contact person's last name", { autoComplete: 'family-name' })}
+            </div>
             {field('address', 'Address', {
               autoComplete: 'street-address',
               hint: 'Street, barangay and city, e.g. Osmena Blvd, Cebu City',
@@ -130,16 +141,16 @@ export default function Register() {
 
         {field('email', 'Email', { type: 'email', autoComplete: 'email' })}
         {field('phoneNumber', 'Phone number', { type: 'tel', autoComplete: 'tel' })}
-        {field('password', 'Password', {
-          type: 'password',
-          autoComplete: 'new-password',
-          hint: 'At least 8 characters, with a letter and a number.',
-        })}
+                <PasswordField id="password" label="Password" autoComplete="new-password"
+                      hint="At least 8 characters, with a letter and a number."
+                      value={form.password} onChange={update} error={errors.password} />
+        <PasswordField id="confirmPassword" label="Confirm password" autoComplete="new-password"
+                      value={form.confirmPassword} onChange={update} error={errors.confirmPassword} />
 
         <div className="form-field checkbox-field">
           <label htmlFor="privacyConsent">
             <input id="privacyConsent" name="privacyConsent" type="checkbox"
-                   checked={form.privacyConsent} onChange={update} />
+                  checked={form.privacyConsent} onChange={update} />
             <span>
               I agree to the privacy notice. PetHaven collects only the details needed for adoption,
               under the Data Privacy Act of 2012 (RA 10173).

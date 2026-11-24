@@ -1,0 +1,36 @@
+.role-options {
+border: none;
+padding: 0;
+margin: 0 0 20px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+.role-options legend { font-weight: 700; margin-bottom: 8px; padding: 0; }
+.role-option {
+position: relative;
+display: flex;
+flex-direction: column;
+gap: 4px;
+padding: 14px;
+border: 2px solid var(--border);
+border-radius: var(--radius);
+cursor: pointer;
+}
+.role-option input { position: absolute; opacity: 0; }        /* hidden, still keyboard-usable */
+.role-option:focus-within { outline: 3px solid var(--amber); outline-offset: 2px; }
+.role-option.selected { border-color: var(--amber); background: var(--amber); }
+.role-option.selected span { color: var(--navy); }      /* (NFR-016) */
+.role-option span { font-size: 14px; color: #4A5670; }
+.note { font-size: 14px; color: #4A5670; }
+
+@media (max-width: 420px) {
+.role-options { grid-template-columns: 1fr; }
+}
+
+/* First name + last name on one row */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row .form-field { min-width: 0; }
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; }      /* stacks on phones (NFR-014) */
+}

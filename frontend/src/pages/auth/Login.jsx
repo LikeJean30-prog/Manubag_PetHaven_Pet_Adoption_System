@@ -49,10 +49,8 @@ export default function Login() {
       {message && <div className="alert alert-error" role="alert">{message}</div>}
 
       <form onSubmit={handleSubmit} noValidate>
-        <FormField id="email" label="Email" type="email" autoComplete="email"
-                   value={form.email} onChange={update} error={errors.email} />
-        <FormField id="password" label="Password" type="password" autoComplete="current-password"
-                   value={form.password} onChange={update} error={errors.password} />
+        <FormField id="email" label="Email" type="email" autoComplete="email" value={form.email} onChange={update} error={errors.email} />
+        <FormField id="password" label="Password" type="password" autoComplete="current-password" value={form.password} onChange={update} error={errors.password} />
         <button type="submit" className="btn btn-full" disabled={submitting}>
           {submitting ? 'Logging in…' : 'Log in'}
         </button>
