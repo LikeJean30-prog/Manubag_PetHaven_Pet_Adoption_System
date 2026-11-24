@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getMe } from '../../api/authApi'
+import '../../styles/Dashboard.css'
 
 export default function AdopterDashboard() {
   const [user, setUser] = useState(null)

@@ -6,6 +6,7 @@ import { getRole } from '../../utils/auth'
 import { readApiError } from '../../utils/errors'
 import { formatDateTime } from '../../utils/dates'
 import StatusBadge from '../../components/StatusBadge'
+import '../../styles/MyAccount.css'
 
 export default function MyAccount() {
   const role = getRole()

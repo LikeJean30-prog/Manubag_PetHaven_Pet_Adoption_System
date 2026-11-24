@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listShelters } from '../../api/adminApi'
 import { readApiError } from '../../utils/errors'
+import '../../styles/Dashboard.css'
 
 export default function AdminDashboard() {
   const [counts, setCounts] = useState(null)

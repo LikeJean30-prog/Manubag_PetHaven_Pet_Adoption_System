@@ -4,6 +4,7 @@ import { getMyShelter } from '../../api/shelterApi'
 import { readApiError } from '../../utils/errors'
 import { formatDateTime } from '../../utils/dates'
 import StatusBadge from '../../components/StatusBadge'
+import '../../styles/Dashboard.css'
 
 export default function ShelterDashboard() {
   const [shelter, setShelter] = useState(null)
