@@ -21,7 +21,7 @@ public class PasswordResetController {
     public Map<String, String> forgotPassword(@Valid @RequestBody ForgotPasswordRequest req) {
         passwordResetService.requestReset(req);
         return Map.of("message",
-                "If an account exists for that email, we sent a password reset link. It expires in 30 minutes.");
+                "We sent a password reset link. It expires in 30 minutes.");
     }
 
     @PostMapping("/reset-password")
