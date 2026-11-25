@@ -45,6 +45,11 @@ export default function Login() {
             Registration received. An administrator will verify your shelter. You can log in to check its status.
             </div>
           )}
+        {location.state?.passwordChanged && !message && (
+        <div className="alert alert-success" role="status">
+          Password changed. Please log in with your new password.
+        </div>
+      )}
           
       {message && <div className="alert alert-error" role="alert">{message}</div>}
 
@@ -54,6 +59,9 @@ export default function Login() {
         <button type="submit" className="btn btn-full" disabled={submitting}>
           {submitting ? 'Logging in…' : 'Log in'}
         </button>
+        <p className="forgot-link">
+            <Link to="/forgot-password">Forgot password?</Link>
+        </p>
       </form>
 
       <p>New to PetHaven? <Link to="/register">Create an account</Link></p>

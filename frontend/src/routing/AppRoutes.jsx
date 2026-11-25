@@ -9,6 +9,10 @@ import AdopterDashboard from '../pages/dashboard/AdopterDashboard'
 import ShelterDashboard from '../pages/dashboard/ShelterDashboard'
 import AdminDashboard from '../pages/dashboard/AdminDashboard'
 import ShelterVerification from '../pages/admin/ShelterVerification'
+import EditProfile from '../pages/account/EditProfile'
+import ChangePassword from '../pages/account/ChangePassword'
+import ForgotPassword from '../pages/auth/ForgotPassword'
+import ResetPassword from '../pages/auth/ResetPassword'
 
 export default function AppRoutes() {
   return (
@@ -17,9 +21,13 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<MyAccount />} />
+          <Route path="/account/edit" element={<EditProfile />} />
+          <Route path="/account/password" element={<ChangePassword />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={['ADOPTER']} />}>

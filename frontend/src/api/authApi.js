@@ -11,3 +11,13 @@ export const getMe = () =>
 
 export const registerShelter = (data) =>
   client.post('/auth/register/shelter', data).then((res) => res.data)   // FR-002
+
+export async function forgotPassword(email) {
+  const res = await client.post('/auth/forgot-password', { email })
+  return res.data
+}
+
+export async function resetPassword(data) {
+  const res = await client.post('/auth/reset-password', data)
+  return res.data
+}
