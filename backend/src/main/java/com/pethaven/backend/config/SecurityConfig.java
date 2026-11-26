@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
 
@@ -35,6 +36,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**", "/error").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")      // section 8.4: Admin only
                 .requestMatchers("/api/shelter/**").hasRole("SHELTER")
+                .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll()
+                .requestMatchers("/api/pets/**").hasRole("SHELTER")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
