@@ -13,6 +13,8 @@ import EditProfile from '../pages/account/EditProfile'
 import ChangePassword from '../pages/account/ChangePassword'
 import ForgotPassword from '../pages/auth/ForgotPassword'
 import ResetPassword from '../pages/auth/ResetPassword'
+import MyPets from '../pages/shelter/MyPets'
+import PetForm from '../pages/shelter/PetForm'
 
 export default function AppRoutes() {
   return (
@@ -35,7 +37,10 @@ export default function AppRoutes() {
         </Route>
 
         <Route element={<ProtectedRoute roles={['SHELTER']} />}>
-          <Route path="/shelter" element={<ShelterDashboard />} />
+        <Route path="/shelter" element={<ShelterDashboard />} />
+        <Route path="/shelter/pets" element={<MyPets />} />
+        <Route path="/shelter/pets/new" element={<PetForm />} />
+        <Route path="/shelter/pets/:petId/edit" element={<PetForm />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={['ADMIN']} />}>

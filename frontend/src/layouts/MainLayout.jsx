@@ -15,7 +15,7 @@ const MENU = {
   ],
   SHELTER: [
     { to: '/shelter', label: 'Home' },
-    { label: 'My pets', soon: true },
+    { to: '/shelter/pets', label: 'My pets', end: false },
     { label: 'Applications', soon: true },
     { to: '/account', label: 'Profile' },
   ],
@@ -118,7 +118,7 @@ export default function MainLayout() {
                   {item.label}<small>Coming soon</small>
                 </span>
               ) : (
-                <NavLink key={item.label} to={item.to} end>
+                <NavLink key={item.label} to={item.to} end={item.end !== false}>
                   {item.label}
                 </NavLink>
               )
