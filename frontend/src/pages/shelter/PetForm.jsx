@@ -82,9 +82,9 @@ export default function PetForm() {
       if (editing) {
         await updatePet(petId, payload)
         navigate('/shelter/pets', { state: { saved: 'updated' } })
-      } else {
-        await createPet(payload)
-        navigate('/shelter/pets', { state: { saved: 'created' } })
+            } else {
+        const created = await createPet(payload)
+        navigate(`/shelter/pets/${created.petId}/photos`, { state: { created: true } })
       }
     } catch (err) {
       const data = err.response?.data

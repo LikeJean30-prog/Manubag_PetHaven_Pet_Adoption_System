@@ -13,6 +13,7 @@ import EditProfile from '../pages/account/EditProfile'
 import ChangePassword from '../pages/account/ChangePassword'
 import ForgotPassword from '../pages/auth/ForgotPassword'
 import ResetPassword from '../pages/auth/ResetPassword'
+import PetPhotos from '../pages/shelter/PetPhotos'
 import MyPets from '../pages/shelter/MyPets'
 import PetForm from '../pages/shelter/PetForm'
 
@@ -41,6 +42,7 @@ export default function AppRoutes() {
         <Route path="/shelter/pets" element={<MyPets />} />
         <Route path="/shelter/pets/new" element={<PetForm />} />
         <Route path="/shelter/pets/:petId/edit" element={<PetForm />} />
+        <Route path="/shelter/pets/:petId/photos" element={<PetPhotos />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={['ADMIN']} />}>

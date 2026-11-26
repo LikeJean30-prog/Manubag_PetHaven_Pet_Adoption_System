@@ -20,6 +20,7 @@ export default function MyPets() {
 
   const verified = shelter?.verificationStatus === 'VERIFIED'
   const saved = location.state?.saved
+  const missingPhotos = pets ? pets.filter((p) => p.photos.length === 0).length : 0
 
   return (
     <div className="page-wide">
@@ -45,6 +46,12 @@ export default function MyPets() {
         </div>
       )}
 
+      {missingPhotos > 0 && (
+        <div className="alert alert-info" role="status">
+          {missingPhotos === 1 ? '1 pet has' : `${missingPhotos} pets have`} no photo yet and will not appear in the public catalog. Use the Photos button to add one.
+        </div>
+      )}
+
       {message && <div className="alert alert-error" role="alert">{message}</div>}
 
       {pets === null && !message && <p>Loading…</p>}
@@ -61,6 +68,7 @@ export default function MyPets() {
           <table className="pet-table">
             <thead>
               <tr>
+                <th>Photo</th>
                 <th>Name</th>
                 <th>Species</th>
                 <th>Breed</th>
@@ -73,6 +81,13 @@ export default function MyPets() {
             <tbody>
               {pets.map((pet) => (
                 <tr key={pet.petId}>
+                  <td>
+                    {pet.primaryPhotoUrl ? (
+                      <img className="pet-thumb" src={pet.primaryPhotoUrl} alt={pet.name} />
+                    ) : (
+                      <span className="pet-thumb pet-thumb-empty">No photo</span>
+                    )}
+                  </td>
                   <td className="pet-name">{pet.name}</td>
                   <td>{labelOf(SPECIES, pet.species)}</td>
                   <td>{pet.breed}</td>
@@ -83,7 +98,10 @@ export default function MyPets() {
                     </span>
                   </td>
                   <td>{formatDateTime(pet.createdAt)}</td>
-                  <td>
+                  <td className="row-actions">
+                    <Link to={`/shelter/pets/${pet.petId}/photos`} className="btn btn-secondary btn-small">
+                      Photos ({pet.photos.length})
+                    </Link>
                     <Link to={`/shelter/pets/${pet.petId}/edit`} className="btn btn-secondary btn-small">
                       Edit
                     </Link>

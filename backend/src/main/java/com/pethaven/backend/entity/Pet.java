@@ -2,6 +2,8 @@ package com.pethaven.backend.entity;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pet")
@@ -57,6 +59,9 @@ public class Pet {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("primaryPhoto DESC, photoId ASC")
+    private List<PetPhoto> photos = new ArrayList<>();
 
     @PrePersist
     void onCreate() {
@@ -83,6 +88,7 @@ public class Pet {
     public ModerationStatus getModerationStatus() { return moderationStatus; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
+    public List<PetPhoto> getPhotos() { return photos; }
 
     public void setShelter(Shelter shelter) { this.shelter = shelter; }
     public void setName(String name) { this.name = name; }
